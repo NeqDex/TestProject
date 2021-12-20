@@ -3,20 +3,20 @@ package com.dexmemore.testproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.AdapterView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.dexmemore.testproject.adapters.NumbAdapter
 import com.dexmemore.testproject.databinding.ActivityMainBinding
+import com.dexmemore.testproject.databinding.ListItemBinding
 import com.dexmemore.testproject.repository.Repository
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
-    private lateinit var textView: TextView
+    private lateinit var textView:TextView
+    private var check : String = ""
     private val listOfNumbers: MutableList<String> = mutableListOf()
 
 
@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         textView = findViewById(R.id.text_view)
 
-        setupGridView()
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
@@ -47,18 +46,7 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
-    private fun setupGridView() {
-        val adapter = NumbAdapter(this, R.layout.list_item, listOfNumbers)
-        binding.gridView.adapter = adapter
 
-        binding.gridView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, v, position, id ->
-                Toast.makeText(
-                    this@MainActivity, " Clicked Position: " + (position + 1),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
 
 
 }
